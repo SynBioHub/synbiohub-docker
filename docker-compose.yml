@@ -36,7 +36,7 @@ services:
             - "8890:8890"
         restart: always  
     synbiohub:
-        image: synbiohub/synbiohub:snapshot-standalone
+        image: synbiohub/synbiohub:snapshot-basetester
         depends_on: 
             - virtuoso
         ports:
