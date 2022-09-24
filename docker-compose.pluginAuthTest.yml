@@ -1,0 +1,9 @@
+version: '3.2'
+
+services:
+    pluginAuthTest:
+        image: synbiohub/plugin-auth-test:snapshot
+        ports:
+            - "8101:5000"
+        dns: 8.8.8.8
+        restart: always
