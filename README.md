@@ -28,7 +28,7 @@ This version does not even contain the Virtuoso image, so it should only be used
 For full plugin information please see this <a href="https://synbiohub.github.io/synbiohub-docker/#plugins" target="_blank">table</a> which contains a sortable table with plugin overview.
 
 ### Plugin Ports Used
-Note that thee are other ports that are already in use: synbiohub:7777, virtuoso:8890, elasitcsearch:9200, and sbolexplorer:13162.
+Note that thee are other ports that are already in use: synbiohub:7777, virtuoso:8890, elasitcsearch:9200, sbolexplorer:13162, and xperimental-data-converter:3200.
  - docker-compose.pluginVisualIgem.yml : 3000
  - docker-compose.pluginVisualTest.yml : 8081
  - docker-compose.pluginVisualTestJs.yml : 8082
