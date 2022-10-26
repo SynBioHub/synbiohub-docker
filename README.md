@@ -53,3 +53,4 @@ Note that thee are other ports that are already in use: synbiohub:7777, virtuoso
  - docker-compose.pluginAuthTest.yml : 8101
  - docker-compose.pluginAuthFlapjack.yml : 8102
  - docker-compose.pluginVisualFlapjack.yml : 8103
+  - docker-compose.AuthTesting.yml : 8104
