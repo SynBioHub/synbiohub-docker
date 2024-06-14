@@ -5,14 +5,5 @@ services:
         image: synbiohub/plugin-visual-serve-test-js:snapshot
         ports:
             - "8086:5000"
-        volumes:
-            - type: volume
-              source: pluginVisualServeJs
-              target: /mnt
         restart: always
         dns: 8.8.8.8
-        depends_on:
-            - synbiohub
-
-volumes:
-    pluginVisualServeJs:

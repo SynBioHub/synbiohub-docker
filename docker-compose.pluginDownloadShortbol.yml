@@ -1,0 +1,9 @@
+version: '3.2'
+
+services:
+    pluginDownloadShortbol:
+        image: synbiohub/plugin-download-shortbol:snapshot
+        ports:
+            - "8096:5000"
+        dns: 8.8.8.8
+        restart: always

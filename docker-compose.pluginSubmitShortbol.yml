@@ -1,0 +1,9 @@
+version: '3.2'
+
+services:
+    pluginSubmitShortbol:
+        image: synbiohub/plugin-submit-shortbol:snapshot
+        ports:
+            - "8097:5000"
+        dns: 8.8.8.8
+        restart: always

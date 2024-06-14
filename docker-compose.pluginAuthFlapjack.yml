@@ -1,0 +1,9 @@
+version: '3.2'
+
+services:
+    pluginAuthFlapjack:
+        image: synbiohub/plugin-auth-flapjack:snapshot
+        ports:
+            - "8102:5000"
+        dns: 8.8.8.8
+        restart: always

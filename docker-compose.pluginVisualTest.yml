@@ -5,14 +5,5 @@ services:
         image: synbiohub/plugin-visual-test:snapshot
         ports:
             - "8081:5000"
-        volumes:
-            - type: volume
-              source: pluginVisualTest
-              target: /mnt
         restart: always
         dns: 8.8.8.8
-        depends_on:
-            - synbiohub
-
-volumes:
-    pluginVisualTest:

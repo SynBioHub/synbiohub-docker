@@ -1,0 +1,9 @@
+version: '3.2'
+
+services:
+    pluginDownloadSBOL2Excel:
+        image: synbiohub/plugin-download-sbol2excel:snapshot
+        ports:
+            - "8100:5000"
+        dns: 8.8.8.8
+        restart: always

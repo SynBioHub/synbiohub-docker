@@ -1,0 +1,10 @@
+  
+version: '3.2'
+
+services:
+    pluginSubmitExcelLibrary:
+        image: synbiohub/plugin-submit-excel-library:snapshot
+        ports:
+            - "8093:5000"
+        dns: 8.8.8.8
+        restart: always

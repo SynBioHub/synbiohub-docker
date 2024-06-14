@@ -5,14 +5,5 @@ services:
         image: synbiohub/plugin-submit-test:snapshot
         ports:
             - "8087:5000"
-        volumes:
-            - type: volume
-              source: pluginSubmitTest
-              target: /mnt
         dns: 8.8.8.8
         restart: always
-        depends_on:
-            - synbiohub
-
-volumes:
-    pluginSubmitTest:

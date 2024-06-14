@@ -6,14 +6,5 @@ services:
         image: synbiohub/plugin-visual-seqviz:snapshot
         ports:
             - "8085:5000"
-        volumes:
-            - type: volume
-              source: pluginVisualSeqviz
-              target: /mnt
         dns: 8.8.8.8
         restart: always
-        depends_on:
-            - synbiohub
-
-volumes:
-    pluginVisualSeqviz:

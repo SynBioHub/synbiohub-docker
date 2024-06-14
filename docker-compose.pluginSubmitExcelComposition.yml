@@ -1,0 +1,9 @@
+version: '3.2'
+
+services:
+    pluginSubmitExcelComposition:
+        image: synbiohub/plugin-submit-excel-composition:snapshot
+        ports:
+            - "8094:5000"
+        dns: 8.8.8.8
+        restart: always

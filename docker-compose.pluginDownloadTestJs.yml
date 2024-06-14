@@ -5,14 +5,5 @@ services:
         image: synbiohub/plugin-download-test-js:snapshot
         ports:
             - "8090:5000"
-        volumes:
-            - type: volume
-              source: pluginDownloadTestJs
-              target: /mnt
         dns: 8.8.8.8
         restart: always
-        depends_on:
-            - synbiohub
-
-volumes:
-    pluginDownloadTestJs:
