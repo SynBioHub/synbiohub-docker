@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
     explorer:
-        image: michael13162/sbolexplorer:snapshot-synbiohub
+        image: myersresearchgroup/sbolexplorer:snapshot-synbiohub
         ports:
             - "13162:13162"
         depends_on:
