@@ -10,6 +10,11 @@ services:
             - /var/run/docker.sock:/var/run/docker.sock
     virtuoso:
         image: tenforce/virtuoso:virtuoso7.2.5
+        environment:
+            - VIRT_SPARQL_MaxQueryCostEstimationTime=default
+            - VIRT_SPARQL_MaxQueryExecutionTime=300
+            - VIRT_Parameters_ServerThreads=100
+            - VIRT_HTTPServer_ServerThreads=100
         volumes: 
             - type: volume
               source: virtuoso-db
