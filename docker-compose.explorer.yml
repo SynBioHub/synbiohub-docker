@@ -23,9 +23,6 @@ services:
             - type: volume
               source: esdata
               target: /usr/share/elasticsearch/data
-            - type: volume
-              source: virtuoso-db
-              target: /virtuoso
 
 volumes:
     esdata:
