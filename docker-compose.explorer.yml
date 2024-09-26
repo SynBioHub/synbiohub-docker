@@ -3,11 +3,7 @@ version: '3.2'
 services:
     explorer:
         image: myersresearchgroup/sbolexplorer:snapshot-synbiohub
-        privileged: true  # This replaces the --privileged flag
-        ulimits:
-            nproc:
-                soft: 1024   # Soft limit for number of processes/threads
-                hard: 2048   # Hard limit for number of processes/threads
+        privileged: true 
         ports:
             - "13162:13162"
         depends_on:
