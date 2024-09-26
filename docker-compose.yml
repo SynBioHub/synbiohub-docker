@@ -13,8 +13,8 @@ services:
         environment:
             - VIRT_SPARQL_MaxQueryCostEstimationTime=default
             - VIRT_SPARQL_MaxQueryExecutionTime=300
-            - VIRT_Parameters_ServerThreads=100
-            - VIRT_HTTPServer_ServerThreads=100
+            - VIRT_Parameters_ServerThreads=40
+            - VIRT_HTTPServer_ServerThreads=300
         volumes: 
             - type: volume
               source: virtuoso-db
