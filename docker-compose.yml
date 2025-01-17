@@ -1,3 +1,5 @@
+version: '3.2'
+
 services:
     autoheal: 
         restart: always
@@ -6,17 +8,6 @@ services:
             - AUTOHEAL_CONTAINER_LABEL=all
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
-    
-    virtuoso-health:
-        image: curlimages/curl:latest
-        network_mode: host
-        command: ["sh", "-c", "while true; do sleep 5; done"]
-        healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:8890"]
-            interval: 5s
-            timeout: 10s
-            retries: 20
-
     virtuoso:
         image: tenforce/virtuoso:virtuoso7.2.5
         environment:
@@ -30,13 +21,11 @@ services:
               target: /data
         ports:
             - "8890:8890"
-        restart: always
-
+        restart: always  
     synbiohub:
         image: synbiohub/synbiohub:snapshot-standalone
         depends_on: 
-            virtuoso-health:
-                condition: service_healthy
+            - virtuoso
         ports:
             - "7777:7777"
         volumes:
@@ -46,6 +35,7 @@ services:
             - type: volume
               source: virtuoso-db
               target: /virtuoso
+        dns: 8.8.8.8
         restart: always
 
 volumes:
