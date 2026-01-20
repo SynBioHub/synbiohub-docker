@@ -1,9 +1,6 @@
-version: '3.2'
-
 services:
     pluginVisualTest:
         image: synbiohub/plugin-visual-test:snapshot
         ports:
             - "8081:5000"
         restart: always
-        dns: 8.8.8.8

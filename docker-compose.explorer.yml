@@ -1,5 +1,3 @@
-version: '3.2'
-
 services:
     explorer:
         image: myersresearchgroup/sbolexplorer:snapshot-synbiohub
@@ -9,7 +7,6 @@ services:
         depends_on:
             - elasticsearch
             - synbiohub
-        dns: 8.8.8.8
         volumes:
             - type: volume
               source: explorer
@@ -24,7 +21,6 @@ services:
             - type: volume
               source: esdata
               target: /usr/share/elasticsearch/data
-
 volumes:
     esdata:
     explorer:

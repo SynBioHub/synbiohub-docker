@@ -1,9 +1,6 @@
-version: '3.2'
-
 services:
     pluginVisualIgem:
         image: synbiohub/igem-plugin:snapshot
         ports:
             - "3000:3000"
-        dns: 8.8.8.8
         restart: always

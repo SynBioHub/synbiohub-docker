@@ -1,5 +1,3 @@
-version: '3.2'
-
 services:
     autoheal: 
         restart: always
@@ -35,9 +33,7 @@ services:
             - type: volume
               source: virtuoso-db
               target: /virtuoso
-        dns: 8.8.8.8
         restart: always
-
 volumes:
     virtuoso-db:
     sbh:

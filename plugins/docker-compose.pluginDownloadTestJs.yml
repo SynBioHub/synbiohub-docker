@@ -1,9 +1,6 @@
-version: '3.2'
-
 services:
     pluginDownloadTestJs:
         image: synbiohub/plugin-download-test-js:snapshot
         ports:
             - "8090:5000"
-        dns: 8.8.8.8
         restart: always

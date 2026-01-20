@@ -1,9 +1,6 @@
-version: '3.2'
-
 services:
     pluginVisualServeTest:
         image: synbiohub/plugin-visual-serve-test:snapshot
         ports:
             - "8088:5000"
-        dns: 8.8.8.8
         restart: always

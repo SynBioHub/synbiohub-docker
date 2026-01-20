@@ -1,9 +1,6 @@
-version: '3.2'
-
 services:
     pluginSubmitTest:
         image: synbiohub/plugin-submit-test:snapshot
         ports:
             - "8087:5000"
-        dns: 8.8.8.8
         restart: always

@@ -1,9 +1,6 @@
-version: '3.2'
-
 services:
     pluginDownloadSnapgene:
         image: synbiohub/plugin-download-snapgene:snapshot
         ports:
             - "8083:5000"
-        dns: 8.8.8.8
         restart: always

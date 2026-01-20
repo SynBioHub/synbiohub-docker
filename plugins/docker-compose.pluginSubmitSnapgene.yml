@@ -1,9 +1,6 @@
-version: '3.2'
-
 services:
     pluginSubmitSnapgene:
         image: synbiohub/plugin-submit-snapgene:snapshot
         ports:
             - "8084:5000"
-        dns: 8.8.8.8
         restart: always
