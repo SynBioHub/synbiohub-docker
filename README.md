@@ -13,13 +13,6 @@ To run the base configuration:
 ### With Explorer
 To add [SBOLExplorer](https://github.com/michael13162/SBOLExplorer), add the `docker-compose.explorer.yml` to the main docker-compose, i.e. for step 3 run `docker-compose -f ./synbiohub-docker/docker-compose.yml -f ./synbiohub-docker/docker-compose.explorer.yml up`
 
-### With sbol-db instead of Virtuoso
-To run SynBioHub on [sbol-db](https://github.com/marpaia/sbol-db) instead of Virtuoso, use `docker-compose.sboldb.yml` in place of the base `docker-compose.yml`:
-
-`docker-compose -f ./synbiohub-docker/docker-compose.sboldb.yml up`
-
-This stack replaces the Virtuoso service with sbol-db (backed by Postgres). sbol-db answers on the `virtuoso` network alias at port 8890 and exposes the same HTTP SPARQL endpoints, so SynBioHub's triplestore configuration is unchanged — the triplestore is selected purely by which compose file you use. It requires a SynBioHub image with standards-compliant SPARQL (the triplestore-agnostic query fixes), which the published `snapshot-standalone` image carries.
-
 ### With Plugins
 To add plugins to the configuration change step 3 to: `docker-compose --f ./synbiohub-docker/docker-compose.yml -f ./synbiohub-docker/docker-compose.explorer.yml -f ./synbiohub-docker/docker-compose.<Plugin 1 File Name>.yml -f ./synbiohub-docker/docker-compose.<Plugin 2 File Name>.yml up`
 
