@@ -35,7 +35,7 @@ services:
               target: /var/lib/postgresql/data
         restart: always
     sboldb-migrate:
-        image: ${SBOLDB_IMAGE:-ghcr.io/marpaia/sbol-db:v0.1.2@sha256:e6bf296de9c170f69c2e87a1dcaa01f2a6d6de5941907e2860b3e6065d35edcd}
+        image: ${SBOLDB_IMAGE:-ghcr.io/marpaia/sbol-db:v0.1.2}
         depends_on:
             postgres:
                 condition: service_healthy
@@ -44,7 +44,7 @@ services:
         command: ["db", "migrate"]
         restart: "no"
     sboldb:
-        image: ${SBOLDB_IMAGE:-ghcr.io/marpaia/sbol-db:v0.1.2@sha256:e6bf296de9c170f69c2e87a1dcaa01f2a6d6de5941907e2860b3e6065d35edcd}
+        image: ${SBOLDB_IMAGE:-ghcr.io/marpaia/sbol-db:v0.1.2}
         depends_on:
             sboldb-migrate:
                 condition: service_completed_successfully

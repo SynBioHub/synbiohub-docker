@@ -49,13 +49,11 @@ docker compose \
 The search overlay starts a second, network-internal sbol-db listener at
 `http://explorer:13162/`. Both listeners share the same process, database,
 search index, maintenance workers, and shutdown lifecycle. Port 13162 is not
-published to the host in this topology. The default sbol-db image is the
-immutable `v0.1.2` release, which includes both the compatibility listener and
-the bundled ontology. Before the listener starts, a one-shot service loads the
-checksum-pinned Sequence Ontology snapshot bundled in the sbol-db image. Native
-text indexing can therefore expand SBOL role IRIs to SO labels and synonyms
-without relying on a mutable network download. The health check requires that
-load to be present.
+published to the host in this topology. The default sbol-db image includes both
+the compatibility listener and a bundled Sequence Ontology snapshot. Before the
+listener starts, a one-shot service loads that snapshot so native text indexing
+can expand SBOL role IRIs to SO labels and synonyms without a network download.
+The health check requires that load to be present.
 
 Worker-enabled sbol-db comparison rows default to one maintenance worker so
 full lexical and vector reconciliations cannot compete for memory. Set
@@ -71,7 +69,7 @@ example:
 ```sh
 COMPOSE_PROJECT_NAME=sbh-search-eval \
 SYNBIOHUB_IMAGE=synbiohub/synbiohub:sbol-db-and-explorer \
-SBOLDB_IMAGE=ghcr.io/marpaia/sbol-db:v0.1.2@sha256:e6bf296de9c170f69c2e87a1dcaa01f2a6d6de5941907e2860b3e6065d35edcd \
+SBOLDB_IMAGE=your-sbol-db-image \
 SYNBIOHUB_PORT=17777 \
 TRIPLESTORE_PORT=18890 \
 docker compose \
