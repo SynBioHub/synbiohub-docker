@@ -13,13 +13,13 @@
 services:
     autoheal:
         restart: always
-        image: willfarrell/autoheal
+        image: ${AUTOHEAL_IMAGE:-willfarrell/autoheal}
         environment:
             - AUTOHEAL_CONTAINER_LABEL=all
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
     postgres:
-        image: postgres:17
+        image: ${POSTGRES_IMAGE:-postgres:17}
         environment:
             POSTGRES_USER: sbol
             POSTGRES_PASSWORD: sbol
@@ -35,7 +35,7 @@ services:
               target: /var/lib/postgresql/data
         restart: always
     sboldb-migrate:
-        image: ghcr.io/marpaia/sbol-db:v0.1.1
+        image: ${SBOLDB_IMAGE:-ghcr.io/marpaia/sbol-db:v0.1.1}
         depends_on:
             postgres:
                 condition: service_healthy
@@ -44,7 +44,7 @@ services:
         command: ["db", "migrate"]
         restart: "no"
     sboldb:
-        image: ghcr.io/marpaia/sbol-db:v0.1.1
+        image: ${SBOLDB_IMAGE:-ghcr.io/marpaia/sbol-db:v0.1.1}
         depends_on:
             sboldb-migrate:
                 condition: service_completed_successfully
@@ -52,6 +52,10 @@ services:
             DATABASE_URL: postgres://sbol:sbol@postgres:5432/sbol
             SBOL_DB_SPARQL_AUTH_USER: dba
             SBOL_DB_SPARQL_AUTH_PASSWORD: dba
+            # Worker-enabled full-corpus comparisons trigger both lexical and
+            # vector maintenance. Serialize those memory-heavy jobs by default;
+            # the external-Explorer overlay disables this worker altogether.
+            SBOL_DB_WORKER_CONCURRENCY: ${SBOLDB_WORKER_CONCURRENCY:-1}
             # Trusted docker network: skip write-endpoint auth so the
             # 401-challenge (SynBioHub uploads with sendImmediately:false) can't
             # close large chunked uploads mid-body (surfaces as write EPIPE).
@@ -65,7 +69,7 @@ services:
             timeout: 10s
             retries: 30
         ports:
-            - "8890:8890"
+            - "${TRIPLESTORE_PORT:-8890}:8890"
         # Answer at the hostname Virtuoso used so SynBioHub's triplestore config
         # is identical across backends.
         networks:
@@ -74,11 +78,11 @@ services:
                     - virtuoso
         restart: always
     synbiohub:
-        image: synbiohub/synbiohub:snapshot-standalone
+        image: ${SYNBIOHUB_IMAGE:-synbiohub/synbiohub:snapshot-standalone}
         depends_on:
             - sboldb
         ports:
-            - "7777:7777"
+            - "${SYNBIOHUB_PORT:-7777}:7777"
         volumes:
             - type: volume
               source: sbh

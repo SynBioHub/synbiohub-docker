@@ -1,0 +1,64 @@
+# Enable sbol-db's network-internal SBOLExplorer-compatible listener while the
+# same process continues to serve SynBioHub's Virtuoso-compatible store API.
+# Layer this only on docker-compose.sboldb.yml:
+#
+#   docker compose \
+#     -f docker-compose.sboldb.yml \
+#     -f docker-compose.sboldb-search.yml up -d
+
+services:
+    # Load the immutable SO snapshot bundled in the sbol-db image before the
+    # native search worker can build its first index. This gives role IRIs the
+    # same label/synonym vocabulary SBOLExplorer applies to every document,
+    # without introducing a live ontology download into a comparison run.
+    sboldb-ontology:
+        image: ${SBOLDB_IMAGE:-ghcr.io/marpaia/sbol-db:v0.1.1}
+        depends_on:
+            sboldb-migrate:
+                condition: service_completed_successfully
+        environment:
+            DATABASE_URL: postgres://sbol:sbol@postgres:5432/sbol
+        command:
+            - ontology
+            - load-file
+            - /opt/sbol-db/ontologies/so.obo
+            - --prefix
+            - SO
+            - --name
+            - Sequence Ontology (image-pinned)
+        restart: "no"
+    sboldb:
+        depends_on:
+            sboldb-ontology:
+                condition: service_completed_successfully
+        command:
+            - server
+            - --bind
+            - 0.0.0.0:8890
+            - --explorer-bind
+            - 0.0.0.0:13162
+            # Full-corpus reconciliation holds substantial transient state.
+            # Keep the comparison topology deterministic and prevent the
+            # lexical and vector rebuild jobs from competing for memory.
+            - --worker-concurrency
+            - ${SBOLDB_WORKER_CONCURRENCY:-1}
+        expose:
+            - "13162"
+        healthcheck:
+            test: ["CMD", "/usr/local/bin/sbol-db", "db", "doctor", "--require-ontologies", "SO"]
+            interval: 5s
+            timeout: 10s
+            retries: 30
+        networks:
+            default:
+                aliases:
+                    - virtuoso
+                    - explorer
+    synbiohub:
+        environment:
+            SBH_USE_EXPLORER: "true"
+            SBH_EXPLORER_ENDPOINT: http://explorer:13162/
+            SBH_EXPLORER_FALLBACK: "false"
+        depends_on:
+            sboldb:
+                condition: service_healthy

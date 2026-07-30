@@ -1,13 +1,13 @@
 services:
     autoheal: 
         restart: always
-        image: willfarrell/autoheal
+        image: ${AUTOHEAL_IMAGE:-willfarrell/autoheal}
         environment: 
             - AUTOHEAL_CONTAINER_LABEL=all
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
     virtuoso:
-        image: tenforce/virtuoso:virtuoso7.2.5
+        image: ${VIRTUOSO_IMAGE:-tenforce/virtuoso:virtuoso7.2.5}
         environment:
             - VIRT_SPARQL_MaxQueryCostEstimationTime=default
             - VIRT_SPARQL_MaxQueryExecutionTime=300
@@ -18,14 +18,14 @@ services:
               source: virtuoso-db
               target: /data
         ports:
-            - "8890:8890"
+            - "${TRIPLESTORE_PORT:-8890}:8890"
         restart: always  
     synbiohub:
-        image: synbiohub/synbiohub:snapshot-standalone
+        image: ${SYNBIOHUB_IMAGE:-synbiohub/synbiohub:snapshot-standalone}
         depends_on: 
             - virtuoso
         ports:
-            - "7777:7777"
+            - "${SYNBIOHUB_PORT:-7777}:7777"
         volumes:
             - type: volume
               source: sbh

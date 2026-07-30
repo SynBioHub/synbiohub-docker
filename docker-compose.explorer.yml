@@ -1,26 +1,49 @@
 services:
     explorer:
-        image: myersresearchgroup/sbolexplorer:snapshot-synbiohub
+        image: ${SBOLEXPLORER_IMAGE:-myersresearchgroup/sbolexplorer:snapshot-synbiohub}
+        # The repository currently vendors an x86-64-only vsearch executable.
+        platform: ${SBOLEXPLORER_PLATFORM:-linux/amd64}
         privileged: true 
         ports:
-            - "13162:13162"
+            - "${EXPLORER_PORT:-13162}:13162"
         depends_on:
-            - elasticsearch
-            - synbiohub
+            elasticsearch:
+                condition: service_healthy
+            synbiohub:
+                condition: service_healthy
+        healthcheck:
+            test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:13162/info', timeout=5)"]
+            interval: 5s
+            timeout: 10s
+            retries: 60
+            start_period: 30s
         volumes:
             - type: volume
               source: explorer
               target: /mnt
+        restart: always
     elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:6.3.2
-        depends_on: 
-            - virtuoso
+        image: ${ELASTICSEARCH_IMAGE:-docker.elastic.co/elasticsearch/elasticsearch:6.3.2}
+        environment:
+            - discovery.type=single-node
+            - ES_JAVA_OPTS=-Xms512m -Xmx512m
         ports:
-            - "9200:9200"
+            - "${ELASTICSEARCH_PORT:-9200}:9200"
+        healthcheck:
+            test: ["CMD-SHELL", "curl -fsS 'http://127.0.0.1:9200/_cluster/health?wait_for_status=yellow&timeout=1s' >/dev/null"]
+            interval: 5s
+            timeout: 5s
+            retries: 60
+            start_period: 20s
         volumes:
             - type: volume
               source: esdata
               target: /usr/share/elasticsearch/data
+    synbiohub:
+        environment:
+            SBH_USE_EXPLORER: "true"
+            SBH_EXPLORER_ENDPOINT: http://explorer:13162/
+            SBH_EXPLORER_FALLBACK: "false"
 volumes:
     esdata:
     explorer:
