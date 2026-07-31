@@ -12,7 +12,7 @@ services:
     # same label/synonym vocabulary SBOLExplorer applies to every document,
     # without introducing a live ontology download into a comparison run.
     sboldb-ontology:
-        image: ${SBOLDB_IMAGE:-ghcr.io/marpaia/sbol-db:v0.1.2}
+        image: ${SBOLDB_IMAGE:-ghcr.io/marpaia/sbol-db:v0.1.3}
         depends_on:
             sboldb-migrate:
                 condition: service_completed_successfully
