@@ -1,0 +1,13 @@
+# Disable sbol-db's native search-maintenance worker when a separate
+# SBOLExplorer container owns the Explorer role. Layer this between the sbol-db
+# store profile and docker-compose.explorer.yml:
+#
+#   docker compose \
+#     -f docker-compose.sboldb.yml \
+#     -f docker-compose.sboldb-store-only.yml \
+#     -f docker-compose.explorer.yml up -d
+
+services:
+    sboldb:
+        environment:
+            SBOL_DB_WORKER_DISABLED: "true"
