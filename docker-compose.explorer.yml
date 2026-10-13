@@ -45,7 +45,8 @@ services:
             start_period: 20s
         volumes:
             # A new volume: ES 9 cannot open the 6.x data directory. The old
-            # esdata volume is kept so a rollback to 6.3 needs no reindex.
+            # esdata volume is left undeclared so Compose never touches it
+            # (not even `down -v`); add it back to roll back to 6.3.
             - type: volume
               source: esdata9
               target: /usr/share/elasticsearch/data
@@ -58,6 +59,5 @@ services:
               target: /synbiohub/config.initial.local.json
               read_only: true
 volumes:
-    esdata:
     esdata9:
     explorer:
