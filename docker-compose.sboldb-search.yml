@@ -55,10 +55,13 @@ services:
                     - virtuoso
                     - explorer
     synbiohub:
-        environment:
-            SBH_USE_EXPLORER: "true"
-            SBH_EXPLORER_ENDPOINT: http://explorer:13162/
-            SBH_EXPLORER_FALLBACK: "false"
+        # Seed config.local.json on first boot only; after that the admin
+        # Explorer page owns these settings.
+        volumes:
+            - type: bind
+              source: ./config/sboldb-search.local.json
+              target: /synbiohub/config.initial.local.json
+              read_only: true
         depends_on:
             sboldb:
                 condition: service_healthy

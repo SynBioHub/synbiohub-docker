@@ -1,6 +1,10 @@
 # SynBioHub Docker topologies
 
-Clone this repository and run one of the Compose combinations below. The search-backend comparison deliberately enables strict Explorer mode: `SBH_EXPLORER_FALLBACK=false` makes an unavailable or failing Explorer endpoint visible instead of silently retrying the same query against the triplestore.
+Clone this repository and run one of the Compose combinations below. The search-backend comparison deliberately enables strict Explorer mode: `"SBOLExplorerFallback": false` makes an unavailable or failing Explorer endpoint visible instead of silently retrying the same query against the triplestore.
+
+## SynBioHub configuration seeds
+
+The Explorer overlays (`docker-compose.explorer.yml` and `docker-compose.sboldb-search.yml`) mount a file from `config/` as SynBioHub's initial `config.local.json`. SynBioHub copies it into the `sbh` volume only when that volume has no configuration yet, so a fresh stack starts with `useSBOLExplorer`, `SBOLExplorerEndpoint`, and `SBOLExplorerFallback` set for the topology. After the first boot, `config.local.json` in the volume is the source of truth: the admin Explorer page can turn SBOLExplorer on or off, and editing `config/*.local.json` has no effect until the volume is removed. Adding an Explorer overlay to an existing deployment therefore leaves its saved configuration untouched; enable Explorer from the admin page instead.
 
 | Topology | SynBioHub store | SynBioHub Explorer endpoint | Compose files |
 | --- | --- | --- | --- |
