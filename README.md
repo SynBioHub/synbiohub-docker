@@ -46,6 +46,8 @@ The search overlay starts a second, network-internal sbol-db listener at `http:/
 
 Worker-enabled sbol-db comparison rows default to one maintenance worker so full lexical and vector reconciliations cannot compete for memory. Set `SBOLDB_WORKER_CONCURRENCY` explicitly when evaluating a larger production allocation; the external-SBOLExplorer row uses the store-only overlay and starts no sbol-db worker.
 
+The native search overlay also publishes the separate operations listener on host loopback at `http://127.0.0.1:9090/metrics`. Set `SBOLDB_OPERATIONS_PORT` to choose a different host port. Index-completion checks must use this endpoint; metrics are not served on the SPARQL port.
+
 ## Reproducible image overrides and isolated runs
 
 Every image and published port can be overridden without editing YAML. For example:
@@ -56,6 +58,7 @@ SYNBIOHUB_IMAGE=synbiohub/synbiohub:sbol-db-and-explorer \
 SBOLDB_IMAGE=your-sbol-db-image \
 SYNBIOHUB_PORT=17777 \
 TRIPLESTORE_PORT=18890 \
+SBOLDB_OPERATIONS_PORT=19090 \
 docker compose \
   -f docker-compose.sboldb.yml \
   -f docker-compose.sboldb-search.yml \

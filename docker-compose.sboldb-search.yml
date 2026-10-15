@@ -12,7 +12,7 @@ services:
     # same label/synonym vocabulary SBOLExplorer applies to every document,
     # without introducing a live ontology download into a comparison run.
     sboldb-ontology:
-        image: ${SBOLDB_IMAGE:-ghcr.io/marpaia/sbol-db:v0.1.3}
+        image: ${SBOLDB_IMAGE:-ghcr.io/marpaia/sbol-db:v0.1.8@sha256:ec35a160248e1db1b50e2a55c251e140c6f2f6c0d5781822b5140aa475af759b}
         depends_on:
             sboldb-migrate:
                 condition: service_completed_successfully
@@ -28,6 +28,10 @@ services:
             - Sequence Ontology (image-pinned)
         restart: "no"
     sboldb:
+        environment:
+            SBOL_DB_OPERATIONS_BIND: 0.0.0.0:9090
+        ports:
+            - "127.0.0.1:${SBOLDB_OPERATIONS_PORT:-9090}:9090"
         depends_on:
             sboldb-ontology:
                 condition: service_completed_successfully
